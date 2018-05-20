@@ -19,7 +19,8 @@
     "babel-loader": "^7.1.4",
     "babel-preset-react": "^6.24.1",
     "babel-preset-env": "^1.7.0",
-    "ws": "^5.1.1"
+    "mongodb": "^3.0.8",
+    "axios": "^0.18.0"
   },
   "engines": {
     "node": "8.x"
