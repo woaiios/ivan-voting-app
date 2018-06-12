@@ -1,10 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Item from './components/item';
-import TwitterLoginButton from './components/twitterLoginButton';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import LoginComponent from './components/item'
+
 ReactDOM.render(
   (<div> 
-    <Item/>
-    <TwitterLoginButton/>
+    <LoginComponent/>
   </div>), 
-  document.getElementById('root'));
+  document.getElementById('root'))
