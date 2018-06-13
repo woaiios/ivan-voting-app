@@ -1,12 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 
+const LoginState = Object.freeze({
+      Unknow: "0",
+      Login: "1",
+      Logout: "2"
+    });
+
 class LoginComponent extends React.Component {
+  
   constructor(props) {
     super(props);
     this.loginfb.bind(this);
     this.checkLoginState.bind(this);
     this.statusChangeCallback.bind(this);
+    this.state = {isLoggedIn: LoginState.Unknow};
   }
 
   componentDidMount() {
@@ -18,18 +26,14 @@ class LoginComponent extends React.Component {
     console.log("statusChangeCallback");
     console.log(response);
     if (response.status === "connected") {
+      this.setState({isLoggedIn: LoginState.Login});
       let jsc = JSON.stringify(response); 
       axios.post('https://ivan-voting-app.glitch.me/fblogin',{ID:12345, d:jsc})
       .then(function (response) {
         console.log(response);
       })
     } else {
-      window.FB.login(
-        function(res) {
-          console.log(res);
-        },
-        { scope: "pubic_profile,email" }
-      );
+      this.setState({isLoggedIn: LoginState.Logout});
     }
   }    
   
@@ -43,7 +47,7 @@ class LoginComponent extends React.Component {
   
   fbinit() {
     console.log("G");
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = () => {
       window.FB.init({
         appId: "479882055764108",
         cookie: true, // enable cookies to allow the server to access
@@ -51,6 +55,7 @@ class LoginComponent extends React.Component {
         xfbml: true, // parse social plugins on this page
         version: "v2.8" // use graph api version 2.8
       });
+      this.checkLoginState();
     };
   }
 
@@ -69,13 +74,30 @@ class LoginComponent extends React.Component {
 
   loginfb() {
     console.log("hey guy!");
-    this.checkLoginState();
+    window.FB.login( (res) => {
+          console.log(res);
+        },
+        { scope: "pubic_profile,email" }
+    );
+  }
+  
+  logoutfb() {
+    window.FB.logout(function(response) {
+      // Person is now logged out
+    });
   }
   
   render() {
+    const isLoggedIn = this.state.isLoggedIn == LoginState.Login;
+    let button;
+    if (isLoggedIn) {
+      button = <button onClick={this.logoutfb.bind(this)}>logout facebook</button>;
+    } else {
+      button = <button onClick={this.loginfb.bind(this)}>login facebook</button>;
+    }
     return (
       <div>
-        <button onClick={this.loginfb.bind(this)}>login facebook</button>
+        {button}
       </div>
     );
   }
