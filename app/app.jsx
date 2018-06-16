@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import LoginComponent from './components/item'
+import Navbar from './components/navbar'
 
 ReactDOM.render(
-  (<div> 
-    <LoginComponent/>
+  (<div className="container-fluid"> 
+      <Navbar/>
   </div>), 
   document.getElementById('root'))

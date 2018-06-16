@@ -9,10 +9,12 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.post("/fblogin", function (req, res) {
-  console.log(req.body);
-  console.log("some one call me !");
-  res.json({foo: "bar"});
-  console.log("I have respone him !");
+  if (req.body.ID != 12345) {
+    res.json({foo:"Err app"});
+    return;
+  }
+  let token = req.body.d;
+  res.json({info:"ok"});
 });
 
 

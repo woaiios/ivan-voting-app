@@ -88,16 +88,17 @@ class LoginComponent extends React.Component {
   }
   
   render() {
-    const isLoggedIn = this.state.isLoggedIn == LoginState.Login;
     let button;
-    if (isLoggedIn) {
-      button = <button onClick={this.logoutfb.bind(this)}>logout facebook</button>;
+    if (this.state.isLoggedIn == LoginState.Login) {
+      button = <button className="btn btn-primary" onClick={this.logoutfb.bind(this)}>logout facebook</button>;
+    } else if (this.state.isLoggedIn == LoginState.Logout){
+      button = <button className="btn btn-primary" onClick={this.loginfb.bind(this)}>login facebook</button>;
     } else {
-      button = <button onClick={this.loginfb.bind(this)}>login facebook</button>;
+      button = <button className="btn btn-primary">login facebook</button>;
     }
     return (
-      <div>
-        {button}
+      <div className={this.props.className}>
+          {button}
       </div>
     );
   }
