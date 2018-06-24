@@ -1,4 +1,18 @@
-var express = require('express');
+const express = require('express');
+const mongoose = require('mongoose');
+const poll = require('./poll');
+const login = require('./login');
+
+var isDbConnected = false;
+const dbUrl = process.env.dbUrl;
+
+mongoose.connect(dbUrl);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  isDbConnected = true;
+});
+
 var app = express();
 
 app.use(express.static('public'));
@@ -8,13 +22,12 @@ app.get("/", function (request, response) {
 app.use(express.json());
 app.use(express.urlencoded());
 
+app.post('/new-poll', function (req, res) {
+  poll(req, res);
+});
+
 app.post("/fblogin", function (req, res) {
-  if (req.body.ID != 12345) {
-    res.json({foo:"Err app"});
-    return;
-  }
-  let token = req.body.d;
-  res.json({info:"ok"});
+  login(req, res);
 });
 
 

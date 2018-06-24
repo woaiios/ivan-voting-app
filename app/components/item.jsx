@@ -77,7 +77,7 @@ class LoginComponent extends React.Component {
     window.FB.login( (res) => {
           console.log(res);
         },
-        { scope: "pubic_profile,email" }
+        { scope: "public_profile,email" }
     );
   }
   
